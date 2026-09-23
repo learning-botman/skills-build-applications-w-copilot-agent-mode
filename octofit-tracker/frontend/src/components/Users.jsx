@@ -1,5 +1,7 @@
 import ResourcePage from './ResourcePage.jsx';
 
+const endpoint = '/api/users/';
+
 const columns = [
   { key: 'displayName', label: 'Name' },
   { key: 'username', label: 'Username' },
@@ -9,6 +11,7 @@ const columns = [
 export default function Users() {
   return (
     <ResourcePage
+      endpoint={endpoint}
       resource="users"
       title="People"
       description="Keep track of the athletes building momentum together."

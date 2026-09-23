@@ -1,8 +1,9 @@
 const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+const apiOrigin = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev`
+  : 'http://localhost:8000';
 
-export const apiBaseUrl = codespaceName
-  ? `https://${codespaceName}-8000.app.github.dev/api`
-  : 'http://localhost:8000/api';
+export const apiBaseUrl = `${apiOrigin}/api`;
 
 export function extractItems(payload) {
   if (Array.isArray(payload)) {
@@ -20,8 +21,8 @@ export function extractItems(payload) {
   return candidates.find(Array.isArray) || [];
 }
 
-export async function fetchResource(resource) {
-  const response = await fetch(`${apiBaseUrl}/${resource}/`);
+export async function fetchResource(endpoint, resource) {
+  const response = await fetch(`${apiOrigin}${endpoint}`);
 
   if (!response.ok) {
     throw new Error(`Unable to load ${resource} (${response.status})`);

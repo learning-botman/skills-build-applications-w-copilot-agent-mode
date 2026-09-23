@@ -13,7 +13,7 @@ function formatValue(value) {
   return value ?? '—';
 }
 
-export default function ResourcePage({ resource, title, description, columns }) {
+export default function ResourcePage({ endpoint, resource, title, description, columns }) {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState('');
@@ -21,7 +21,7 @@ export default function ResourcePage({ resource, title, description, columns }) 
   useEffect(() => {
     let active = true;
 
-    fetchResource(resource)
+    fetchResource(endpoint, resource)
       .then((nextItems) => {
         if (active) {
           setItems(nextItems);
@@ -38,7 +38,7 @@ export default function ResourcePage({ resource, title, description, columns }) 
     return () => {
       active = false;
     };
-  }, [resource]);
+  }, [endpoint, resource]);
 
   return (
     <section className="resource-page">
