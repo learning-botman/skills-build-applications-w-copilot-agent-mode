@@ -22,7 +22,8 @@ export function extractItems(payload) {
 }
 
 export async function fetchResource(endpoint, resource) {
-  const response = await fetch(`${apiOrigin}${endpoint}`);
+  const requestUrl = endpoint.startsWith('http') ? endpoint : `${apiOrigin}${endpoint}`;
+  const response = await fetch(requestUrl);
 
   if (!response.ok) {
     throw new Error(`Unable to load ${resource} (${response.status})`);
