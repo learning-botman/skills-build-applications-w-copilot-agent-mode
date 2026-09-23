@@ -1,12 +1,7 @@
 import express from 'express';
 import apiRouter from './routes/api.js';
 
-const codespaceName = process.env.CODESPACE_NAME;
-const apiBaseUrl = codespaceName
-  ? `https://${codespaceName}-8000.app.github.dev`
-  : 'http://localhost:8000';
-
-export function createApp() {
+export function createApp(apiBaseUrl: string) {
   const app = express();
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 
