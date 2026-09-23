@@ -1,4 +1,5 @@
 import { createApp } from './app.js';
+import './config/database.js';
 
 const port = Number(process.env.PORT) || 8000;
 const codespaceName = process.env.CODESPACE_NAME;
