@@ -1,122 +1,99 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { NavLink, Route, Routes } from 'react-router-dom';
+import Activities from './components/Activities.jsx';
+import Leaderboard from './components/Leaderboard.jsx';
+import Teams from './components/Teams.jsx';
+import Users from './components/Users.jsx';
+import Workouts from './components/Workouts.jsx';
+import { apiBaseUrl } from './api.js';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const navigation = [
+  { label: 'Overview', path: '/' },
+  { label: 'Activities', path: '/activities' },
+  { label: 'Leaderboard', path: '/leaderboard' },
+  { label: 'Teams', path: '/teams' },
+  { label: 'People', path: '/users' },
+  { label: 'Workouts', path: '/workouts' },
+];
 
+function Overview() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    <section className="overview-page">
+      <div className="overview-intro">
+        <p className="eyebrow">Your movement, in focus</p>
+        <h1>Make today count.</h1>
+        <p className="overview-copy">
+          Track the small wins, find your people, and keep a clear view of the habits that move you forward.
+        </p>
+        <NavLink className="primary-action" to="/activities">Log an activity <span aria-hidden="true">↗</span></NavLink>
+      </div>
+      <div className="overview-mark" aria-hidden="true">
+        <span>O</span>
+        <span>F</span>
+        <span>IT</span>
+      </div>
+      <div className="overview-grid">
+        <NavLink className="overview-card overview-card-teal" to="/leaderboard">
+          <span className="card-index">01</span>
+          <strong>See the board</strong>
+          <span>Celebrate consistency across the community.</span>
+        </NavLink>
+        <NavLink className="overview-card overview-card-coral" to="/workouts">
+          <span className="card-index">02</span>
+          <strong>Find a workout</strong>
+          <span>Pick a session that fits your energy today.</span>
+        </NavLink>
+        <NavLink className="overview-card overview-card-ink" to="/teams">
+          <span className="card-index">03</span>
+          <strong>Meet your team</strong>
+          <span>Momentum is better when it is shared.</span>
+        </NavLink>
+      </div>
+      <p className="api-note">Connected to <code>{apiBaseUrl}</code></p>
+    </section>
+  );
 }
 
-export default App
+function App() {
+  return (
+    <div className="app-frame">
+      <header className="topbar">
+        <NavLink className="brand" to="/" aria-label="OctoFit Tracker home">
+          <img src="/octofitapp-small.png" alt="" />
+          <span>OctoFit <em>Tracker</em></span>
+        </NavLink>
+        <nav className="main-nav" aria-label="Main navigation">
+          {navigation.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              end={item.path === '/'}
+              className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+            >
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+        <div className="status-chip"><span aria-hidden="true" /> API online</div>
+      </header>
+
+      <main>
+        <Routes>
+          <Route path="/" element={<Overview />} />
+          <Route path="/activities" element={<Activities />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/workouts" element={<Workouts />} />
+        </Routes>
+      </main>
+
+      <footer className="footer">
+        <span>OCTOFIT / 2026</span>
+        <span>Built for the next good choice.</span>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
