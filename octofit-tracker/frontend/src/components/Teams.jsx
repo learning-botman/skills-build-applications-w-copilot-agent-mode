@@ -1,7 +1,5 @@
 import ResourcePage from './ResourcePage.jsx';
 
-const endpoint = '/api/teams/';
-
 const columns = [
   { key: 'name', label: 'Team' },
   { key: 'description', label: 'Mission' },
@@ -11,7 +9,7 @@ const columns = [
 export default function Teams() {
   return (
     <ResourcePage
-      endpoint={endpoint}
+      endpoint="/api/teams/"
       resource="teams"
       title="Teams"
       description="Find your crew, compare missions, and keep each other moving."
